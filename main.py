@@ -1,5 +1,8 @@
 import tkinter as tk
 
+shawzub = 1
+
+
 class Apt:
     def __init__ (self):
         pass
