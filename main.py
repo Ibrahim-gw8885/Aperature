@@ -24,6 +24,18 @@ class apt:
             csvReader = csv.reader(file)
             for lines in csvReader:
                 print(lines)
+    
+    def readAllFoods():
+        with open(apt.fridge, mode = 'r') as file:
+            csvReader = csv.reader(file)
+            for lines in csvReader:
+                print(lines[0])
+    
+    def readAllExp_dates():
+        with open(apt.fridge, mode = 'r') as file:
+            csvReader = csv.reader(file)
+            for lines in csvReader:
+                print(lines[1])
 
     def writeItemToCsv(foodName,exp_date):
         foodName = str(foodName)
@@ -40,4 +52,7 @@ class apt:
         def inputWidget():
             inputWidgetCol = tk.Frame(root)
 
-apt.writeItemToCsv('banannnnnnnnnnna','12-20-2000')
+#apt.writeItemToCsv('banannnnnnnnnnna','12-20-2000')
+apt.readAllItemsFromCsv()
+apt.readAllFoods()
+apt.readAllExp_dates()
