@@ -93,10 +93,12 @@ class apt:
 
 
     def determineExpired():
+        
         #pulling the information from the fridge file
         with open('fridge.csv') as fridge_csv:
   
             fridge_reader = csv.DictReader(fridge_csv, delimiter=',')
+            
             #putting the information read in fridge for a list of months
             month = [int(book['expmonth']) for book in fridge_reader]
 
@@ -122,10 +124,10 @@ class apt:
         current_time = date.today()
 
         #A loop fuction which will take each value from the list to seprate them into day and month 
-
         for num in range(len(day)):
+            
             #this will format the information we have to make a easier to compare to the current date
-            exp_date = date(2022, month[num], day[num])
+            exp_date = date(year[num], month[num], day[num])
             new = products[num]
     
         #this will out put the products that have expired because the products that havent exipred will not show up
