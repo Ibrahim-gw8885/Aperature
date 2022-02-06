@@ -21,16 +21,17 @@ class apt:
 
     def readAllItemsFromCsv():
         with open(apt.fridge, mode = 'r') as file:
-            csvFile = csv.reader(file)
-            for lines in csvFile:
+            csvReader = csv.reader(file)
+            for lines in csvReader:
                 print(lines)
 
-    
-    
-    def writeItemToCsv():
-        with open(apt.fridge, mode = 'w') as file:
-            csvFile = csv.writer(file)
-                
+    def writeItemToCsv(foodName,exp_date):
+        foodName = str(foodName)
+        rowWrite = [foodName,exp_date]
+
+        with open(apt.fridge, mode = 'w',newline='') as file:
+            csvWriter = csv.writer(file)
+            csvWriter.writerow(rowWrite)
 
     class gui:
         def __init__(self):
@@ -39,4 +40,4 @@ class apt:
         def inputWidget():
             inputWidgetCol = tk.Frame(root)
 
-apt.writeItemToCsv()
+apt.writeItemToCsv('banannnnnnnnnnna','12-20-2000')
