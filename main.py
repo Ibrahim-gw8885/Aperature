@@ -91,6 +91,23 @@ class apt:
 
         return displacementDays
 
+    def removeRowFromName(foodName):
+        linesToWrite = list()
+        with open('fridge.csv', 'r') as File:
+            
+            read = csv.reader(File)
+            for row in read:
+                print(row)
+                if(row[0] ==  foodName):
+                    print('skip')
+                else:
+                    linesToWrite.append(row)
+
+
+        with open('fridge.csv', 'w',newline="") as writeFile:
+            writer = csv.writer(writeFile)
+            for i in linesToWrite:
+                writer.writerow(i)
 
 
     def determineExpired():
@@ -226,14 +243,12 @@ class apt:
             self.listItemsFrame = tk.Frame(self.root,padx= 20, bd= 5)
             self.listItemsFrame.pack(side = tk.RIGHT)
 
-            totalItems = apt.getItemCount()
             apt.determineExpired()
             with open(apt.fridge, mode = 'r') as file:
                 bCount = 0
                 csvReader = csv.reader(file)
                 for lines in csvReader:
                     if bCount == 0:
-                        print("pass")
                         bCount = bCount + 1
                     else:
                         bCount = bCount + 1
@@ -259,6 +274,7 @@ class apt:
             self.deleteButton.pack()
 
         def deleteNodeFunc(self):
+            apt.removeRowFromName(self.foodDelStr.get())
             self.refreshFunc()
 
         def refreshFunc(self):
@@ -267,7 +283,6 @@ class apt:
 
         def getBG(bgmonth,bgday,bgyear):
             daysTillexp = apt.returnAmountOfDaysToExp(bgyear,bgmonth,bgday)
-            print(daysTillexp)
             if daysTillexp <= 0:
                 return "red"
             elif 1 < daysTillexp < 5:
