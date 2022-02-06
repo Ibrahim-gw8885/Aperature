@@ -5,7 +5,7 @@ import datetime
 import csv
 from datetime import datetime
 from datetime import date
-from turtle import left
+from turtle import color, left
 from click import command
 
 from pandas.core.base import DataError
@@ -27,6 +27,14 @@ class apt:
             csvReader = csv.reader(file)
             for lines in csvReader:
                 print(lines)
+
+    def getItemCount():
+        i = 0
+        with open(apt.fridge, mode = 'r') as file:
+            csvReader = csv.reader(file)
+            for lines in csvReader:
+                i = i + 1
+        return i
     
     def readAllFoods():
         with open(apt.fridge, mode = 'r') as file:
@@ -62,19 +70,29 @@ class apt:
                             return index
                         else:
                             print(lines.count) # debugging code
+    
+    def returnAmountOfDaysToExp(cYear,cMonth,cDay):
+        curDate = date.today()
+        cYear = int(cYear)
+        cMonth = int(cMonth)
+        cDay = int(cDay)
+        displacementDays = 0
+
+        if cYear != curDate.year:
+            displacementDays = ((int(cYear) - curDate.year)*365) + displacementDays
+        else:
+            if cMonth != curDate.month:
+                displacementDays = ((cMonth - curDate.month)*30) +displacementDays
+            else:
+                if cDay != curDate.day:
+                    displacementDays = (cDay - curDate.day) + displacementDays
+
+
+        return displacementDays
+
 
 
     def determineExpired():
-        
-        #pulling the information from the fridge file
-        with open('fridge.csv') as fridge0_csv:
-  
-            fridge0_reader = csv.DictReader(fridge0_csv, delimiter=',')
-            
-            #putting the information read in fridge for a list of years
-            year = [int(book0['expyear']) for book0 in fridge0_reader]
-
-        
         
         #pulling the information from the fridge file
         with open('fridge.csv') as fridge_csv:
@@ -117,7 +135,7 @@ class apt:
 
             print(new.title() + ": Its Expired")
         else:
-            print(new.title() + ": not Expired")
+            print(new.title() + ": Its Not Expired")
     
     
 
@@ -133,6 +151,7 @@ class apt:
             self.root = tk.Tk()
 
             self.entryFrameW()
+            self.listItems()
 
             self.root.mainloop() #loops the app
         
@@ -180,11 +199,44 @@ class apt:
 
         def entryButtonFunction(self):
             apt.writeItemToCsv(self.foodNameStr.get(),self.monthNameStr.get(),self.dayNameStr.get(),self.yearNameStr.get())
+        
+        def listItems(self):
+            self.listItemsFrame = tk.Frame(self.root)
+            self.listItemsFrame.pack(side = tk.RIGHT)
+
+            totalItems = apt.getItemCount()
+            apt.determineExpired()
+            with open(apt.fridge, mode = 'r') as file:
+                bCount = 0
+                csvReader = csv.reader(file)
+                for lines in csvReader:
+                    if bCount == 0:
+                        print("pass")
+                        bCount = bCount + 1
+                    else:
+                        self.nodeFrame = tk.Frame(self.listItemsFrame,bg= apt.gui.getBG(lines[1],lines[2],lines[3]))
+                        self.nodeFrame.pack(side = tk.TOP)
+                        bottemText = "Expiration date is: "+ str(lines[1]) +"-"+str(lines[2])+"-"+str(lines[3])
+                        tk.Label(self.nodeFrame,text=lines[0],bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
+                        tk.Label(self.nodeFrame,text=bottemText,bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
+
+        def getBG(bgmonth,bgday,bgyear):
+            daysTillexp = apt.returnAmountOfDaysToExp(bgyear,bgmonth,bgday)
+            print(daysTillexp)
+            if daysTillexp <= 0:
+                return "red"
+            elif 1 < daysTillexp < 5:
+                return "yellow"
+            else: 
+                return "green"
+
+
 
             
 
 
 apt.gui()
+#print(apt.getItemCount())
 
 
 
