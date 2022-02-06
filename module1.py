@@ -34,11 +34,13 @@ current_time = date.today()
 for num in range(len(day1)):
     exp_date = date(2022, month1[num], day1[num])
     new = products1[num]
+    
     if exp_date == current_time:
-        
+
         print(new.title() + ": Its Expired")
+    
     else:
-        
+
         print(new.title() + ": Not Expired")
 
 
