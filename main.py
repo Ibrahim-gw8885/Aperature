@@ -285,7 +285,7 @@ class apt:
             daysTillexp = apt.returnAmountOfDaysToExp(bgyear,bgmonth,bgday)
             if daysTillexp <= 0:
                 return "red"
-            elif 1 < daysTillexp < 5:
+            elif 0 < daysTillexp < 5:
                 return "yellow"
             else: 
                 return "green"
