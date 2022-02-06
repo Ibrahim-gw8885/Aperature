@@ -43,6 +43,8 @@ for num in range(len(day)):
     if exp_date <= current_time:
 
         print(new.title() + ": Its Expired")
+    else:
+        print(new.title() + ": Its Not Expired")
     
  
 

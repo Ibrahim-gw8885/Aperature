@@ -101,6 +101,10 @@ class apt:
             
             #putting the information read in fridge for a list of months
             month = [int(book['expmonth']) for book in fridge_reader]
+            print(month)
+
+
+        
 
 
         #pulling the information from the fridge file
@@ -110,6 +114,16 @@ class apt:
 
             #putting the information read in fridge for a list of day
             day = [int(book1['expday']) for book1 in fridge1_reader]
+            print(day)
+
+        #pulling the information from the fridge file
+        with open('fridge.csv') as fridge0_csv:
+            fridge0_reader = csv.DictReader(fridge0_csv, delimiter=',')
+
+
+            #putting the information read in fridge for a list of year
+            year = [int(book0['expyear']) for book0 in fridge0_reader]
+            print(year)
 
 
         #pulling the information from the fridge file
@@ -130,12 +144,12 @@ class apt:
             exp_date = date(year[num], month[num], day[num])
             new = products[num]
     
-        #this will out put the products that have expired because the products that havent exipred will not show up
-        if exp_date <= current_time:
+            #this will out put the products that have expired because the products that havent exipred will not show up
+            if exp_date <= current_time:
 
-            print(new.title() + ": Its Expired")
-        else:
-            print(new.title() + ": Its Not Expired")
+                print(new.title() + ": Its Expired")
+            else:
+                print(new.title() + ": Its Not Expired")
     
     
 
@@ -199,6 +213,10 @@ class apt:
 
         def entryButtonFunction(self):
             apt.writeItemToCsv(self.foodNameStr.get(),self.monthNameStr.get(),self.dayNameStr.get(),self.yearNameStr.get())
+
+        def fridge(self):
+            self.fridgeFrame = tk.Frame(self.root)
+            self.fridgeFrame.pack(side = tk.RIGHT)
         
         def listItems(self):
             self.listItemsFrame = tk.Frame(self.root)
@@ -219,6 +237,12 @@ class apt:
                         bottemText = "Expiration date is: "+ str(lines[1]) +"-"+str(lines[2])+"-"+str(lines[3])
                         tk.Label(self.nodeFrame,text=lines[0],bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
                         tk.Label(self.nodeFrame,text=bottemText,bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
+            self.refreshButton = tk.Button(self.listItemsFrame,text="refresh",command= self.refreshFunc)
+            self.refreshButton.pack(side = tk.TOP)
+
+        def refreshFunc(self):
+            self.listItemsFrame.destroy()
+            self.listItems()
 
         def getBG(bgmonth,bgday,bgyear):
             daysTillexp = apt.returnAmountOfDaysToExp(bgyear,bgmonth,bgday)
@@ -236,7 +260,6 @@ class apt:
 
 
 apt.gui()
-#print(apt.getItemCount())
 
 
 
