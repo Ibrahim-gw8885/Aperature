@@ -41,9 +41,25 @@ class apt:
         foodName = str(foodName)
         rowWrite = [foodName,exp_date]
 
-        with open(apt.fridge, mode = 'w',newline='') as file:
+        with open(apt.fridge, mode = 'a',newline='') as file:
             csvWriter = csv.writer(file)
             csvWriter.writerow(rowWrite)
+
+    def returnFoodAndExp(foodName):
+        #takes in the Name of the food and finds where it is in the csv file
+        foodName = str(foodName) # makes sure the food name is a str
+        index = 0 #is there a better way to find the index of the foodName?
+
+        with open(apt.fridge, mode = 'r') as file:
+                    csvReader = csv.reader(file)
+                    for lines in csvReader:
+                        index= index + 1
+                        if lines[0] == foodName:
+                            print('food found at index:', str(index))
+                            return index
+                        else:
+                            print(lines.count) # debugging code
+
 
     class gui:
         def __init__(self):
@@ -52,7 +68,6 @@ class apt:
         def inputWidget():
             inputWidgetCol = tk.Frame(root)
 
-#apt.writeItemToCsv('banannnnnnnnnnna','12-20-2000')
+apt.writeItemToCsv('milk','12-20-2000')
 apt.readAllItemsFromCsv()
-apt.readAllFoods()
-apt.readAllExp_dates()
+apt.returnFoodAndExp('milk')
