@@ -116,6 +116,8 @@ class apt:
         if exp_date <= current_time:
 
             print(new.title() + ": Its Expired")
+        else:
+            print(new.title() + ": not Expired")
     
     
 
