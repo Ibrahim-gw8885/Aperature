@@ -7,7 +7,8 @@ from datetime import datetime
 from datetime import date
 from turtle import color, left
 from click import command
-
+from numpy import delete
+import pandas as pd
 from pandas.core.base import DataError
 
 
@@ -114,7 +115,6 @@ class apt:
 
             #putting the information read in fridge for a list of day
             day = [int(book1['expday']) for book1 in fridge1_reader]
-            print(day)
 
         #pulling the information from the fridge file
         with open('fridge.csv') as fridge0_csv:
@@ -123,7 +123,7 @@ class apt:
 
             #putting the information read in fridge for a list of year
             year = [int(book0['expyear']) for book0 in fridge0_reader]
-            print(year)
+
 
 
         #pulling the information from the fridge file
@@ -166,7 +166,6 @@ class apt:
 
             self.entryFrameW()
             self.listItems()
-
             self.root.mainloop() #loops the app
         
         def entryFrameW(self):
@@ -215,11 +214,16 @@ class apt:
             apt.writeItemToCsv(self.foodNameStr.get(),self.monthNameStr.get(),self.dayNameStr.get(),self.yearNameStr.get())
 
         def fridge(self):
+            imagef = tk.PhotoImage(file = 'fridgePic.png')
             self.fridgeFrame = tk.Frame(self.root)
             self.fridgeFrame.pack(side = tk.RIGHT)
+            self.fridgeLable = tk.Canvas(self.fridgeFrame, height=5000, width= 3000, bg = imagef)
+            self.fridgeLable.pack()
+            self.fridgeLable.create_image((0,0),image = imagef)
         
+
         def listItems(self):
-            self.listItemsFrame = tk.Frame(self.root)
+            self.listItemsFrame = tk.Frame(self.root,padx= 20, bd= 5)
             self.listItemsFrame.pack(side = tk.RIGHT)
 
             totalItems = apt.getItemCount()
@@ -232,13 +236,30 @@ class apt:
                         print("pass")
                         bCount = bCount + 1
                     else:
+                        bCount = bCount + 1
                         self.nodeFrame = tk.Frame(self.listItemsFrame,bg= apt.gui.getBG(lines[1],lines[2],lines[3]))
                         self.nodeFrame.pack(side = tk.TOP)
                         bottemText = "Expiration date is: "+ str(lines[1]) +"-"+str(lines[2])+"-"+str(lines[3])
                         tk.Label(self.nodeFrame,text=lines[0],bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
-                        tk.Label(self.nodeFrame,text=bottemText,bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
-            self.refreshButton = tk.Button(self.listItemsFrame,text="refresh",command= self.refreshFunc)
+                        tk.Label(self.nodeFrame, width=30,text=bottemText,bg= apt.gui.getBG(lines[1],lines[2],lines[3])).pack(side=tk.TOP)
+                        self.delButton = tk.Button(self.nodeFrame, text=str(bCount-1))
+                        self.delButton.pack(side = tk.RIGHT)
+            self.refreshButton = tk.Button(self.listItemsFrame, text= "refresh",command=self.refreshFunc)
             self.refreshButton.pack(side = tk.TOP)
+            self.deleteNode()
+            
+
+        def deleteNode(self):
+            self.foodDelFrame = tk.Frame(self.listItemsFrame)
+            self.foodDelFrame.pack(side = tk.BOTTOM)
+            self.foodDelStr = tk.StringVar(self.foodDelFrame)
+            self.deleteFoodBox = tk.Entry(self.foodDelFrame,textvariable= self.foodDelStr)
+            self.deleteFoodBox.pack()
+            self.deleteButton = tk.Button(self.foodDelFrame,text = "delete", command= self.deleteNodeFunc)
+            self.deleteButton.pack()
+
+        def deleteNodeFunc(self):
+            self.refreshFunc()
 
         def refreshFunc(self):
             self.listItemsFrame.destroy()
