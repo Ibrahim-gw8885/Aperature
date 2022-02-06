@@ -1,5 +1,9 @@
 from datetime import datetime
 from datetime import date
+import csv
+
+
+
 
 big_list = {"products": ["milk", "eggs", "cheese", "meat"], "experation month": [2, 6, 7, 2], "experation day": [3, 3, 28, 6]}
 
