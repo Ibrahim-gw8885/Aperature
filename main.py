@@ -10,7 +10,8 @@ shawzub = 1
 
 class apt:
 
-    fridge = 'https://github.com/Ibrahim-gw8885/Aperature/blob/main/fridge.csv'
+    #fridge = 'https://github.com/Ibrahim-gw8885/Aperature/blob/main/fridge.csv' - trying to use online git file
+    fridge = 'fridge.csv'
 
     def __init__ (self):
         pass
@@ -18,15 +19,18 @@ class apt:
     def returnDaysRemaining():
         pass
 
-    def readItemFromCsv():
-        with open(apt.fridge, newline='', mode = 'r'):
-            for lines in apt.fridge:
+    def readAllItemsFromCsv():
+        with open(apt.fridge, mode = 'r') as file:
+            csvFile = csv.reader(file)
+            for lines in csvFile:
                 print(lines)
+
+    
     
     def writeItemToCsv():
-        with open(apt.fridge, mode = 'r'):
-            for lines in apt.fridge:
-                print(lines)
+        with open(apt.fridge, mode = 'w') as file:
+            csvFile = csv.writer(file)
+                
 
     class gui:
         def __init__(self):
