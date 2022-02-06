@@ -54,6 +54,9 @@ for num in range(len(month)):
 
         print(new.title() + ": Its Expired")
     else:
-        print(new.title() + ": not Expired")
+        print(new.title() + ": Its Not Expired")
     
+ 
+
+
 
