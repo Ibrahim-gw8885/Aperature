@@ -1,9 +1,12 @@
 from asyncore import write
 import tkinter as tk
 import datetime
-import pandas as pd
-from pandas import read_csv
 import csv
+from datetime import datetime
+from datetime import date
+
+from pandas.core.base import DataError
+
 
 shawzub = 1
 
@@ -40,3 +43,6 @@ class apt:
             inputWidgetCol = tk.Frame(root)
 
 apt.writeItemToCsv()
+
+
+
