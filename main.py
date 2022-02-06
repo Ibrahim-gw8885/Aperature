@@ -40,9 +40,9 @@ class apt:
             for lines in csvReader:
                 print(lines[1])
 
-    def writeItemToCsv(foodName,exp_date):
+    def writeItemToCsv(foodName,month,day,year):
         foodName = str(foodName)
-        rowWrite = [foodName,exp_date]
+        rowWrite = [foodName,month,day,year]
 
         with open(apt.fridge, mode = 'a',newline='') as file:
             csvWriter = csv.writer(file)
@@ -155,7 +155,12 @@ class apt:
             self.enterdayBox.pack(side= tk.BOTTOM)
 
             #entry button
-            
+            self.entryButton = tk.Button(self.entryFrame,command=self.entryButtonFunction,text='Put food in fridge')
+            self.entryButton.pack(side=tk.RIGHT)
+
+        def entryButtonFunction(self):
+            apt.writeItemToCsv(self.foodNameStr.get(),self.monthNameStr.get(),self.dayNameStr.get(),self.yearNameStr.get())
+
             
 
 
