@@ -65,47 +65,53 @@ class apt:
 
 
     def determineExpired():
-        big_list = {"products": ["milk", "eggs", "cheese", "meat"], "experation month": [2, 6, 7, 2], "experation day": [3, 3, 28, 6]}
+        #pulling the information from the fridge file
+        with open('fridge2.0.csv') as fridge_csv:
+  
+            fridge_reader = csv.DictReader(fridge_csv, delimiter=',')
+            #putting the information read in fridge for a list of months
+            month = [int(book['expmonth']) for book in fridge_reader]
 
-        products = []
-        day = []
-        month = []
-        datemonth = []
 
-        day.append(big_list["experation day"])
-        month.append(big_list["experation month"])
-        products.append(big_list["products"])
+        #pulling the information from the fridge file
+        with open('fridge2.0.csv') as fridge1_csv:
+            fridge1_reader = csv.DictReader(fridge1_csv, delimiter=',')
 
-        day1 = []
-        month1 = []
-        products1 = []
 
-        for items in day:
-            for n in items:
-                day1.append(n)
-        for i in month:
-            for m in i:
-                month1.append(m)
-        for k in products:
-            for j in k:
-                products1.append(j)
+            #putting the information read in fridge for a list of day
+            day = [int(book1['expday']) for book1 in fridge1_reader]
 
-                    
 
+        #pulling the information from the fridge file
+        with open('fridge2.0.csv') as fridge1_csv:
+            fridge1_reader2 = csv.DictReader(fridge1_csv, delimiter=',')
+
+
+            #putting the information read in fridge for a list of products
+            products = [book2['food'] for book2 in fridge1_reader2]
+             
+        #getting the date for today which will be compared to the expiration
         current_time = date.today()
 
+        #A loop fuction which will take each value from the list to seprate them into day and month 
 
-        for num in range(len(day1)):
-            exp_date = date(2022, month1[num], day1[num])
-            new = products1[num]
-            
-            if exp_date == current_time:
+        for num in range(len(day)):
+            #this will format the information we have to make a easier to compare to the current date
+            exp_date = date(2022, month[num], day[num])
+            new = products[num]
+    
+        #this will out put the products that have expired because the products that havent exipred will not show up
+        if exp_date <= current_time:
 
-                print(new.title() + ": Its Expired")
-            
-            else:
+            print(new.title() + ": Its Expired")
+    
+    
 
-                print(new.title() + ": Not Expired")
+        
+
+    
+ 
+
 
 
     class gui:
